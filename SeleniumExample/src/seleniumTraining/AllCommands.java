@@ -3,6 +3,10 @@ package seleniumTraining;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -330,7 +334,40 @@ public class AllCommands {
  		FileOutputStream fos = new FileOutputStream(“path of file”);
 
  		wb.write(fos); //save file
-		 
+ 		
+ 		//CONNECTING TO DB
+ 		
+ 			//Connection URL Syntax: "jdbc:mysql://ipaddress:portnumber/db_name"        
+		String dbUrl = "jdbc:mysql://localhost:3036/emp";                   
+
+		//Database Username     
+		String username = "root";   
+
+		//Database Password     
+		String password = "guru99";             
+
+		//Query to Execute      
+		String query = "select *  from employee;";  
+
+		//Load mysql jdbc driver        
+		Class.forName("com.mysql.jdbc.Driver");         
+
+		//Create Connection to DB       
+		Connection con = DriverManager.getConnection(dbUrl,username,password);
+
+		//Create Statement Object       
+		Statement stmt = con.createStatement();                  
+
+		// Execute the SQL Query. Store results in ResultSet        
+		ResultSet rs= stmt.executeQuery(query);                         
+
+		// While Loop to iterate through all data and print results     
+		while (rs.next()){
+			String myName = rs.getString(1);                                        
+			String myAge = rs.getString(2);                                                
+			System. out.println(myName+"  "+myAge);     
+		}       
+		// closing DB Connection       
 	*/	
 		//To design test scripts that will run on the grid, we need to use DesiredCapabilites and the RemoteWebDriverobjects.
 		//	DesiredCapabilites is used to set the type of browser and OS that we will automate
@@ -349,8 +386,14 @@ public class AllCommands {
 		
 		RemoteWebDriver wd = new RemoteWebDriver(new URL("http://192.168.1.1.4:5566/wd/hub"), capability);
 	
-		
-		/*
+		//What Is StaleElementReferenceException?
+		//Stale means old or we can say no longer fresh element. Let me describe you In very simple words. Example : 
+		//You have a search text box on software web page. When you search for some keyword, text box's position get changed on page. 
+		//So In this case, Look and feel, Identifiers etc. of text box will remain same but what Internally happened 
+		//Is -> JS library has deleted previous text box and replaced It with new same text box. 
+		//So now If you will go to use same text box using previously located reference In your software test,
+		//You will get StaleElementReferenceException
+			/*
 		 * The Hub
 •	The hub is the central point where you load your tests into.
 •	There should only be one hub in a grid.
@@ -362,7 +405,16 @@ The Nodes
 •	Nodes can be launched on multiple machines with different platforms and browsers.
 •	The machines running the nodes need not be the same platform as that of the hub.
 */
-
+		
+	/*	TestNG has an inbuilt reporting ability in it.
+		After a complete execution of test cases TestNG generates test-output folder in root of project.
+		In test-output folder there are two main reports, index.html and emailable-report.html.
+		To customize TestNG report we need to implement two interfaces, ITestListener and IReporter.
+		If we need to get report in between execution, we need ITestListener.
+		For creating final report after complete execution we need to implement IReporter.
+		Taking screen shot in Selenium WebDriver, we need to type cast WebDriver to TakesScreenShot interface.
+		To generate pdf reports we need to add IText jar in project.
+*/
 		/*
 		@DataProvider
 		public Object[][] readData() throws IOException
