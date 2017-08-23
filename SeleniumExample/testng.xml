@@ -13,5 +13,6 @@
        <class name="seleniumTraining.TestNgMethodExample"/>
        </classes>
        </test>
-   <!-- Test -->
+       <!--comment line added by ramesh-->
+       <!-- Test -->
 </suite> <!-- Suite -->
